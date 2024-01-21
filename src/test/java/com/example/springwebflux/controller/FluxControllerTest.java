@@ -76,4 +76,20 @@ public class FluxControllerTest {
                     assertEquals(expected, res.getResponseBody());
                 });
     }
+
+    @Test
+    public void fluxStreamLiveTest() {
+        Flux<Long> longFlux = webTestClient
+                .get().uri("/fluxStreamLive")
+                .accept(MediaType.APPLICATION_STREAM_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .returnResult(Long.class)
+                .getResponseBody();
+        StepVerifier.create(longFlux)
+                .expectNext(0L)
+                .expectNext(1L)
+                .thenCancel()
+                .verify();
+    }
 }

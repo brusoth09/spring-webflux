@@ -22,4 +22,10 @@ public class FluxController {
                 .delayElements(Duration.ofSeconds(1))
                 .log();
     }
+
+    @GetMapping(value = "/fluxStreamLive", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    public Flux<Long> getFluxStreamLive(){
+        return Flux.interval(Duration.ofSeconds(1))
+                .log();
+    }
 }
